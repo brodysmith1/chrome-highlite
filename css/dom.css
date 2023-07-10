@@ -1,0 +1,16 @@
+.highlights-ext-in-text-highlight {
+  background: rgba(236, 192, 16, 0.25);
+  cursor: pointer;
+  transition: background 0.4s;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .highlights-ext-in-text-highlight.hover {
+    background: rgba(236, 192, 16, 0.4);
+  }
+}
+
+.highlights-ext-in-text-highlight.editing {
+  background: rgba(236, 192, 16, 0.5);
+}

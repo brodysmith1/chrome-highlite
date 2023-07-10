@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Highlights",
+  "version": "1.0",
+  "action": {},
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "scripting", "storage", "downloads"],
+  "host_permissions": ["https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"],
+      "css": ["css/dom.css", "css/panel.css", "css/dialog.css"]
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+H",
+        "mac": "Command+H"
+      }
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "matches": ["https://*/*"],
+      "resources": [
+        "functions.js",
+        "html/panel.html",
+        "html/dialog.html",
+        "html/sprite.html",
+        "html/list-item.html"
+      ]
+    }
+  ]
+}
