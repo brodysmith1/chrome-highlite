@@ -20,28 +20,6 @@
   const { addSelectionToCollection, showDialog, applyClassesToHighlightId, globalHandleClick } =
     await import(library)
 
-  const onLoad = () => {
-    // Detect if body background color is darkish or lightish
-    const bodyBackgroundColor = window.getComputedStyle(document.body).backgroundColor
-    const bodyBackgroundRGB = bodyBackgroundColor.match(/\d+/g)
-    const bodyBackgroundAlpha = bodyBackgroundRGB[3] || 1
-    const bodyBackgroundLuminance =
-      (0.299 * bodyBackgroundRGB[0] + 0.587 * bodyBackgroundRGB[1] + 0.114 * bodyBackgroundRGB[2]) /
-      255
-
-    const isDark = 1 - bodyBackgroundAlpha * bodyBackgroundLuminance < 0.5
-
-    console.log(
-      "Is dark:",
-      isDark,
-      bodyBackgroundColor,
-      bodyBackgroundLuminance,
-      bodyBackgroundAlpha
-    )
-  }
-
-  onLoad()
-
   // Get html element handles
   const panelWrapper = document.querySelector("#highlights-ext-wrapper")
   const toggleButton = document.querySelector("#highlights-ext-toggle-btn")
