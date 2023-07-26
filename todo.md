@@ -1,7 +1,8 @@
 ## Extension basics
 
-- Only inject content code on activation in current tab
-- Style popup for active/inactive
+- Hard css reset to cover all sites
+- x Only inject content code on activation in current tab
+- x Style popup for active/inactive
 
 ## Highlight
 
@@ -41,6 +42,8 @@
 - See here for useful source code for recreating highlighted range:
   https://stackoverflow.com/questions/23479533/how-can-i-save-a-range-object-from-getselection-so-that-i-can-reproduce-it-on
 
-### Scrub handles allow editing the highlight bounds
+### Other ideas
 
-### Allow editing of individual highlights in panel
+- Scrub handles allow editing the highlight bounds
+- User can drag position of Logo Button to preferred position
+- Allow editing the text of individual highlights in panel
