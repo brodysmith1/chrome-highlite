@@ -299,16 +299,6 @@ function styleSelection(id) {
   selection.collapseToStart()
 }
 
-function showConfetti({ clientX, clientY }) {
-  const confetti = qs("#highlights-ext-confetti")
-  if (!confetti) return
-
-  confetti.style.top = `${clientY}px`
-  confetti.style.left = `${clientX}px`
-  confetti.classList.add("visible")
-  setTimeout(() => confetti.classList.remove("visible"), 1000)
-}
-
 const getHighlight = async (id) => {
   const _url = url()
   const data = await chrome.storage.local.get(_url)
