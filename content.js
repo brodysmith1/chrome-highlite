@@ -17,14 +17,8 @@
 
   // Load javascript libraries
   const library = chrome.runtime.getURL("functions.js")
-  const {
-    exportCollection,
-    addSelectionToCollection,
-    showDialog,
-    applyClassesToHighlightId,
-    toggleEditingDialog,
-    deleteFromCollection,
-  } = await import(library)
+  const { addSelectionToCollection, showDialog, applyClassesToHighlightId, globalHandleClick } =
+    await import(library)
 
   const onLoad = () => {
     // Detect if body background color is darkish or lightish
@@ -55,13 +49,12 @@
   // on toggle click: Show/hide panel
   toggleButton.addEventListener("click", () => panelWrapper.classList.toggle("open"))
 
-  // ondblclick: Show dialog
-  document.addEventListener("dblclick", showDialog)
-
   // onmouseup: Show dialog
   document.addEventListener("mouseup", (e) => {
     if (e.detail === 1) {
-      setTimeout(() => showDialog(e), 50)
+      setTimeout(() => {
+        if (!document.body.dataset.highlightsHasClicked) showDialog(e)
+      }, 20)
     }
   })
 
@@ -69,8 +62,9 @@
   document.addEventListener("mouseenter", applyClassesToHighlightId, true)
   document.addEventListener("mouseleave", applyClassesToHighlightId, true)
 
-  // on click: Toggle editing dialog
-  document.addEventListener("click", toggleEditingDialog)
+  // on click: Handle global click events
+  document.addEventListener("click", globalHandleClick)
+  document.addEventListener("dblclick", showDialog)
 
   // Create event listeners for dialog buttons
   const dialogActions = [
@@ -78,16 +72,6 @@
       id: "highlights-ext-btn-add",
       eventType: "click",
       callback: (e) => addSelectionToCollection(e, html.listItem),
-    },
-    {
-      id: "highlights-ext-btn-delete",
-      eventType: "click",
-      callback: (e) => deleteFromCollection(e),
-    },
-    {
-      id: "highlights-ext-btn-export",
-      eventType: "click",
-      callback: () => exportCollection(),
     },
   ]
 

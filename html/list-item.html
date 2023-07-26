@@ -1,19 +1,19 @@
-<div id="highlights-ext-list-item-{{id}}" class="highlights-ext-list-item">
+<div
+  id="highlights-ext-list-item-{{id}}"
+  class="highlights-ext-list-item"
+  data-highlights-ext-item-id="{{id}}"
+>
   <ul class="highlights-ext-list-item-menu">
-    <li class="item">
-      <svg><use xlink:href="#highlights-ext-copy" /></svg>
+    <li class="highlights-ext-list-item-menu-item" data-highlights-ext-action="copy">
+      <svg><use xlink:href="#highlights-ext-icon-copy" /></svg>
       <span class="label">Copy</span>
     </li>
-    <li class="item">
-      <svg><use xlink:href="#highlights-ext-share" /></svg>
+    <li class="highlights-ext-list-item-menu-item" data-highlights-ext-action="share">
+      <svg><use xlink:href="#highlights-ext-icon-share" /></svg>
       <span class="label">Share</span>
     </li>
-    <li class="item">
-      <svg><use xlink:href="#highlights-ext-edit" /></svg>
-      <span class="label">Edit</span>
-    </li>
-    <li class="item">
-      <svg><use xlink:href="#highlights-ext-delete" /></svg>
+    <li class="highlights-ext-list-item-menu-item" data-highlights-ext-action="delete">
+      <svg><use xlink:href="#highlights-ext-icon-delete" /></svg>
       <span class="label">Delete</span>
     </li>
   </ul>

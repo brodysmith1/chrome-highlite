@@ -4,11 +4,12 @@
   border: "1px solid #ccc";
   transform: translate(-50%, calc(-100%));
   box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2);
-  background: #121212;
-  color: #efefef;
+  background: var(--color-k);
+  color: var(--color-1);
   border-radius: 0.25rem;
   pointer-events: none;
   opacity: 0;
+  font-size: 14px;
   transition: opacity 0.4s, transform 0.2s;
 }
 

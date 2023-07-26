@@ -1,17 +1,85 @@
 const qs = (query, parent = document) => parent.querySelector(query)
 const qsa = (query, parent = document) => parent.querySelectorAll(query)
 
+export function globalHandleClick(event) {
+  const action = event.target.dataset?.highlightsExtAction
+
+  if (action) {
+    event.stopPropagation()
+    document.body.dataset.highlightsHasClicked = "yes"
+    setTimeout(() => (document.body.dataset.highlightsHasClicked = ""), 40)
+  }
+
+  if (action === "copy") copyToClipboard(event)
+  else if (action === "export") exportCollection(event)
+  else if (action === "delete") deleteFromCollection(event)
+  else if (action === "inspect") toggleEditingDialog(event)
+  else if (action === "copy-all") copyAllHighlights(event)
+  else {
+    // If no action, close dialog
+    const dialog = qs("#highlights-ext-dialog")
+    dialog.dataset.highlightsExtActiveId = ""
+    dialog.classList.remove("visible", "editing")
+    applyClassesToHighlightId(event, "editing", "remove", true)
+  }
+}
+
+async function copyAllHighlights(event) {
+  const data = await chrome.storage.local.get("collection")
+  const body = data.collection.map((o) => o.text).join("\n\n")
+  const title = `${document.title}\n${window.location.href}`
+  const text = [title, body].join("\n\n")
+  navigator?.clipboard?.writeText(text)
+
+  const button = event.target
+  button.classList.add("pressed")
+  button.innerHTML = button.innerHTML.replace("Copy", "Copied")
+  setTimeout(() => {
+    button.classList.remove("pressed")
+    button.innerHTML = button.innerHTML.replace("Copied", "Copy")
+  }, 500)
+}
+
+async function copyToClipboard(event) {
+  const dialog = qs("#highlights-ext-dialog")
+  const targetIsDialog = dialog?.contains(event.target)
+
+  let id = ""
+  let text = ""
+
+  if (targetIsDialog) id = dialog.dataset.highlightsExtActiveId
+  else id = getIdFromPanelListElement(event.target)
+
+  if (id) text = (await getHighlight(id)).text
+  else text = window.getSelection()?.toString() || ""
+
+  navigator?.clipboard?.writeText(text)
+
+  if (targetIsDialog) {
+    const copyButton = qs("#highlights-ext-btn-copy")
+    copyButton.classList.add("pressed")
+    copyButton.innerHTML = copyButton.innerHTML.replace("Copy", "Copied")
+    setTimeout(() => {
+      dialog.classList.remove("visible")
+      setTimeout(() => {
+        copyButton.classList.remove("pressed")
+        copyButton.innerHTML = copyButton.innerHTML.replace("Copied", "Copy")
+      }, 500)
+    }, 450)
+  }
+}
+
 // if target has data-highlight-id attribute, toggle hover class
 export function applyClassesToHighlightId(
   event,
   className = "hover",
   actionName,
-  applyToAllHighlights
+  applyToGlobalHighlights
 ) {
   const id = event.target.dataset?.highlightsExtId
-  if (id || applyToAllHighlights) {
+  if (id || applyToGlobalHighlights) {
     const action = actionName ?? (event.type === "mouseenter" ? "add" : "remove")
-    qsa(`[data-highlights-ext-id${applyToAllHighlights ? "" : `="${id}"`}]`).forEach((item) => {
+    qsa(`[data-highlights-ext-id${applyToGlobalHighlights ? "" : `="${id}"`}]`).forEach((item) => {
       item.classList[action](className)
     })
   }
@@ -24,17 +92,15 @@ export function toggleEditingDialog(event) {
   const dialog = qs("#highlights-ext-dialog")
 
   if (id) {
-    event.stopPropagation()
     if (dialog.classList.contains("visible")) {
+      dialog.dataset.highlightsExtActiveId = ""
       dialog.classList.remove("visible", "editing")
       applyClassesToHighlightId(event, "editing", "remove")
     } else {
       applyClassesToHighlightId(event, "editing", "add")
       showDialog(event, target)
+      dialog.dataset.highlightsExtActiveId = id
     }
-  } else {
-    dialog.classList.remove("visible", "editing")
-    applyClassesToHighlightId(event, "editing", "remove", true)
   }
 }
 
@@ -53,22 +119,28 @@ export async function showDialog(event, focusElement) {
 
     // set dialog position
     dialog.style.top = `${rect.top}px`
-    dialog.style.left = `${event.pageX}px`
+    dialog.style.left = `${event.clientX}px`
     dialog.classList.add("visible")
   } else if (!event.target.dataset?.highlightsExtId) {
     dialog.classList.remove("visible")
   }
 }
 
-export function exportCollection() {
-  chrome.storage.local.get("collection", (data) => {
-    const title = document.title
-    const frontmatter = `# ${title}\n\n[Link to original article](${window.location.href})\n\n`
-    const markdown = data.collection.join("\n\n").replace(/\n\n+/gi, "\n\n")
-    const blob = new Blob([frontmatter, markdown], { type: "text/plain;charset=utf-8" })
-    const url = URL.createObjectURL(blob)
-    chrome.runtime.sendMessage({ type: "exportCollection", url, title: title.slice(0, 25) })
-  })
+export async function exportCollection() {
+  const data = await chrome.storage.local.get("collection")
+
+  const heading = `# ${document.title}\n\n[Link to original article](${window.location.href})\n\n`
+
+  const markdown = data.collection
+    .map((o) => o.text)
+    .join("\n\n")
+    .replace(/\n\n+/gi, "\n\n")
+
+  const blob = new Blob([heading, markdown], { type: "text/plain;charset=utf-8" })
+  const url = URL.createObjectURL(blob)
+  const title = document.title.slice(0, 25).replace(":", " -")
+
+  chrome.runtime.sendMessage({ type: "exportCollection", url, title })
 }
 
 export function addSelectionToCollection(event, htmlTemplate) {
@@ -84,7 +156,7 @@ export function addSelectionToCollection(event, htmlTemplate) {
   const listElement = qs("#highlights-ext-list")
   const scrollElement = qs("#highlights-ext-list-wrapper")
 
-  const html = htmlTemplate.replace("{{id}}", id).replace("{{text}}", text)
+  const html = htmlTemplate.replaceAll("{{id}}", id).replace("{{text}}", text)
 
   listElement.insertAdjacentHTML("beforeend", html)
   scrollElement.scrollTo({ top: listElement.scrollHeight, left: 0, behavior: "smooth" })
@@ -93,10 +165,13 @@ export function addSelectionToCollection(event, htmlTemplate) {
   styleSelection(id)
 }
 
-export function deleteFromCollection(event, id) {
-  event.stopPropagation()
+export function deleteFromCollection(event) {
+  const dialog = qs("#highlights-ext-dialog")
+  const targetIsDialog = dialog?.contains(event.target)
 
-  id = id ?? qs(".highlights-ext-in-text-highlight.editing")?.dataset?.highlightsExtId
+  let id
+  if (targetIsDialog) id = dialog.dataset.highlightsExtActiveId
+  else id = getIdFromPanelListElement(event.target)
 
   if (!id) return
 
@@ -112,6 +187,7 @@ export function deleteFromCollection(event, id) {
   })
 
   chrome.runtime.sendMessage({ type: "removeFromCollection", id })
+  dialog.classList.remove("visible")
 }
 
 // Find the first word boundary in the backward direction
@@ -185,6 +261,7 @@ function styleSelection(id) {
     const node = document.createElement("span")
     node.classList.add("highlights-ext-in-text-highlight")
     node.setAttribute("data-highlights-ext-id", id)
+    node.setAttribute("data-highlights-ext-action", "inspect")
     return node
   }
 
@@ -216,4 +293,28 @@ function styleSelection(id) {
   }
 
   selection.collapseToStart()
+}
+
+function showConfetti({ clientX, clientY }) {
+  const confetti = qs("#highlights-ext-confetti")
+  if (!confetti) return
+
+  confetti.style.top = `${clientY}px`
+  confetti.style.left = `${clientX}px`
+  confetti.classList.add("visible")
+  setTimeout(() => confetti.classList.remove("visible"), 1000)
+}
+
+const getHighlight = async (id) => {
+  const data = await chrome.storage.local.get("collection")
+  return data.collection.find((item) => item.id === id)
+}
+
+const getIdFromPanelListElement = (target) => {
+  let id = ""
+  while (target !== document.body && !id) {
+    id = target.dataset.highlightsExtItemId
+    target = target.parentNode
+  }
+  return id
 }

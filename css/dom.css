@@ -7,10 +7,26 @@
 
 @media (hover: hover) {
   .highlights-ext-in-text-highlight.hover {
-    background: rgba(236, 192, 16, 0.4);
+    background: rgba(236, 192, 16, 0.35);
   }
 }
 
 .highlights-ext-in-text-highlight.editing {
   background: rgba(236, 192, 16, 0.5);
+}
+
+#highlights-ext-confetti {
+  position: fixed;
+  z-index: 10000;
+  transition: transform 0s, opacity 0s;
+  transform: scale(0);
+  opacity: 1;
+  left: 0;
+  top: 0;
+}
+
+#highlights-ext-confetti.visible {
+  transform: scale(4);
+  opacity: 0;
+  transition: transform 1s, opacity 1s;
 }

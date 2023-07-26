@@ -12,7 +12,7 @@
     {
       "matches": ["https://*/*"],
       "js": ["content.js"],
-      "css": ["css/dom.css", "css/panel.css", "css/dialog.css"]
+      "css": ["css/ui.css", "css/dom.css", "css/panel.css", "css/dialog.css"]
     }
   ],
   "commands": {

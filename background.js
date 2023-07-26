@@ -36,6 +36,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       chrome.storage.local.set({ collection: data.collection })
     })
   } else if (message.type === "exportCollection") {
+    console.log(message)
     chrome.downloads.download({ url: message.url, filename: `${message.title}.md` })
   }
 })

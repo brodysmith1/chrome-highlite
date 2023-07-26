@@ -18,8 +18,8 @@
 ## Panel buttons
 
 - Export all to: email, plain-text (md)
-- Copy all to clipboard
 - Add counter badge w animations
+- x Copy all to clipboard
 - x Delete highlight
 
 ## Design
@@ -30,3 +30,4 @@
 
 - Save highlights in cookies/local to enable page revisiting
 - Scrub handles allow editing the highlight bounds
+- Allow editing of individual highlights in panel
