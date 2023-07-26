@@ -1,5 +1,6 @@
 const qs = (query, parent = document) => parent.querySelector(query)
 const qsa = (query, parent = document) => parent.querySelectorAll(query)
+const url = () => window.location.origin + window.location.pathname
 
 export function globalHandleClick(event) {
   const action = event.target.dataset?.highlightsExtAction
@@ -25,9 +26,9 @@ export function globalHandleClick(event) {
 }
 
 async function copyAllHighlights(event) {
-  const data = await chrome.storage.local.get("collection")
+  const data = await chrome.storage.local.get(url())
   const body = data.collection.map((o) => o.text).join("\n\n")
-  const title = `${document.title}\n${window.location.href}`
+  const title = `${document.title}\n${url()}`
   const text = [title, body].join("\n\n")
   navigator?.clipboard?.writeText(text)
 
@@ -127,9 +128,9 @@ export async function showDialog(event, focusElement) {
 }
 
 export async function exportCollection() {
-  const data = await chrome.storage.local.get("collection")
+  const data = await chrome.storage.local.get(url())
 
-  const heading = `# ${document.title}\n\n[Link to original article](${window.location.href})\n\n`
+  const heading = `# ${document.title}\n\n[Link to original article](${url()})\n\n`
 
   const markdown = data.collection
     .map((o) => o.text)
@@ -147,21 +148,23 @@ export function addSelectionToCollection(event, htmlTemplate) {
   event.stopPropagation()
 
   const id = `${new Date().getTime()}-${Math.floor(Math.random() * 10000)}`
-  const text = window.getSelection()?.toString()
+  const selection = window.getSelection()
+  const text = selection?.toString()
   const item = { id, text }
 
+  // TODO: add selection details to collection item
   chrome.runtime.sendMessage({ type: "addToCollection", item })
 
   // Create new html element
   const listElement = qs("#highlights-ext-list")
   const scrollElement = qs("#highlights-ext-list-wrapper")
-
   const html = htmlTemplate.replaceAll("{{id}}", id).replace("{{text}}", text)
 
   listElement.insertAdjacentHTML("beforeend", html)
+  toggleListPlaceholderText()
+
   scrollElement.scrollTo({ top: listElement.scrollHeight, left: 0, behavior: "smooth" })
 
-  // Style the selected text
   styleSelection(id)
 }
 
@@ -185,6 +188,7 @@ export function deleteFromCollection(event) {
     const parent = item.parentNode
     parent.replaceChild(document.createTextNode(text), item)
   })
+  toggleListPlaceholderText()
 
   chrome.runtime.sendMessage({ type: "removeFromCollection", id })
   dialog.classList.remove("visible")
@@ -306,8 +310,10 @@ function showConfetti({ clientX, clientY }) {
 }
 
 const getHighlight = async (id) => {
-  const data = await chrome.storage.local.get("collection")
-  return data.collection.find((item) => item.id === id)
+  const _url = url()
+  const data = await chrome.storage.local.get(_url)
+  console.log(data[_url].collection, id)
+  return data[_url].collection.find((item) => item.id === id)
 }
 
 const getIdFromPanelListElement = (target) => {
@@ -317,4 +323,11 @@ const getIdFromPanelListElement = (target) => {
     target = target.parentNode
   }
   return id
+}
+
+const toggleListPlaceholderText = () => {
+  const list = qs("#highlights-ext-list")
+  const placeholder = qs("#highlights-ext-list-placeholder")
+  console.log(list.children, list.childNodes)
+  placeholder.classList.toggle("highlights-ext-hidden", list.children.length > 1)
 }

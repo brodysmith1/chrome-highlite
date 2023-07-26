@@ -5,6 +5,14 @@
   user-select: none;
 }
 
+.highlights-ext-in-text-highlight.highlights-ext-disabled {
+  display: unset !important;
+  cursor: auto;
+  background: none;
+  transition: none;
+  user-select: auto;
+}
+
 @media (hover: hover) {
   .highlights-ext-in-text-highlight.hover {
     background: rgba(236, 192, 16, 0.35);
@@ -29,4 +37,9 @@
   transform: scale(4);
   opacity: 0;
   transition: transform 1s, opacity 1s;
+}
+
+.highlights-ext-disabled,
+.highlights-ext-hidden {
+  display: none !important;
 }
