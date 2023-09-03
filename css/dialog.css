@@ -4,8 +4,8 @@
   border: "1px solid #ccc";
   transform: translate(-50%, calc(-100%));
   box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2);
-  background: var(--color-k);
-  color: var(--color-1);
+  background: var(--ext-hl-color-k);
+  color: var(--ext-hl-color-1);
   border-radius: 0.25rem;
   pointer-events: none;
   opacity: 0;
@@ -45,7 +45,7 @@
 
 #highlights-ext-btn-delete {
   display: none;
-  color: var(--accent);
+  color: var(--ext-hl-accent);
 }
 
 @media (hover: hover) {
