@@ -5,7 +5,7 @@
 
 [data-highlights-ext-action="copy"].pressed,
 [data-highlights-ext-action="copy-all"].pressed {
-  animation: activate-button 0.3s alternate 2;
+  animation: ext-hl-activate-button 0.3s alternate 2;
 }
 
 [data-highlights-ext-action="copy"] > *,
@@ -13,7 +13,7 @@
   pointer-events: none;
 }
 
-@keyframes activate-button {
+@keyframes ext-hl-activate-button {
   to {
     color: rgba(236, 192, 16, 1);
   }

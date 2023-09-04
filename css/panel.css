@@ -11,6 +11,7 @@
 :root {
   --ext-hl-faint: #bfc5c4;
   --ext-hl-accent: #ecc010;
+  --ext-hl-accent-alt: #ffd736;
   --ext-hl-color-1: #fafafa;
   --ext-hl-color-2: #fcfcfc;
   --ext-hl-color-3: #fefefe;
@@ -81,15 +82,24 @@
   background: var(--ext-hl-accent);
   transition: all 0.6s var(--ext-hl-ease-in-out-quad);
   pointer-events: all;
-  animation: button-animation 0.7s cubic-bezier(0.18, 0.89, 0.43, 2) none;
+  animation: ext-hl-button-animation-1 0.5s cubic-bezier(0.18, 0.89, 0.43, 1.2) none,
+    ext-hl-button-animation-2 0.25s 0.45s 4 ease-in-out alternate none;
 }
 
-@keyframes button-animation {
+@keyframes ext-hl-button-animation-1 {
   from {
-    transform: scale(0);
+    opacity: 0;
+    transform: scale(0.5);
   }
   to {
+    opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes ext-hl-button-animation-2 {
+  to {
+    background: var(--ext-hl-accent-alt);
   }
 }
 
@@ -115,16 +125,6 @@
   transition: all 0.6s var(--ext-hl-ease-in-out-quad);
   transform: translateX(calc(100% + 0.5rem));
   pointer-events: none;
-  animation: panel-animation 0.5s 0.7s 2 alternate none;
-}
-
-@keyframes panel-animation {
-  from {
-    transform: translateX(calc(100% + 0.5rem));
-  }
-  to {
-    transform: translateX(50%);
-  }
 }
 
 #highlights-ext-wrapper.open #highlights-ext-panel {
