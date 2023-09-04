@@ -84,6 +84,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     })
   } else if (message.type === "exportCollection") {
     console.log(message)
-    chrome.downloads.download({ pageId: message.url, filename: `${message.title}.md` })
+    chrome.downloads.download({ url: message.link, filename: `${message.title}.md` })
   }
 })

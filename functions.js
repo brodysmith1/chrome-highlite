@@ -3,7 +3,16 @@ const qsa = (query, parent = document) => parent.querySelectorAll(query)
 const url = () => window.location.origin + window.location.pathname
 
 export function globalHandleClick(event) {
-  const action = event.target.dataset?.highlightsExtAction
+  let target = event.target
+  let action = target.dataset?.highlightsExtAction
+
+  // Check if target parents have el.dataset.highlightsExtAction
+  if (!action) {
+    while (target !== document.body && !action) {
+      action = target.dataset.highlightsExtAction
+      target = target.parentNode
+    }
+  }
 
   if (action) {
     event.stopPropagation()
@@ -12,6 +21,7 @@ export function globalHandleClick(event) {
   }
 
   if (action === "copy") copyToClipboard(event)
+  else if (action === "export-toggle") toggleExportMenu(event)
   else if (action === "export") exportCollection(event)
   else if (action === "delete") deleteFromCollection(event)
   else if (action === "inspect") toggleEditingDialog(event)
@@ -127,21 +137,27 @@ export async function showDialog(event, focusElement) {
   }
 }
 
+export async function toggleExportMenu() {
+  const menu = qs("#highlights-ext-header-export-menu")
+  menu.classList.toggle("open")
+}
+
 export async function exportCollection() {
-  const data = await chrome.storage.local.get(url())
+  const _url = url()
+  const data = await chrome.storage.local.get(_url)
 
   const heading = `# ${document.title}\n\n[Link to original article](${url()})\n\n`
 
-  const markdown = data.collection
+  const markdown = data[_url].collection
     .map((o) => o.text)
     .join("\n\n")
     .replace(/\n\n+/gi, "\n\n")
 
   const blob = new Blob([heading, markdown], { type: "text/plain;charset=utf-8" })
-  const url = URL.createObjectURL(blob)
+  const link = URL.createObjectURL(blob)
   const title = document.title.slice(0, 25).replace(":", " -")
 
-  chrome.runtime.sendMessage({ type: "exportCollection", url, title })
+  chrome.runtime.sendMessage({ type: "exportCollection", link, title })
 }
 
 export function addSelectionToCollection(event, htmlTemplate) {

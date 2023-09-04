@@ -1,8 +1,13 @@
+## Priorities
+
+- Export all functions: email, plain-text, markdown
+- Share button: Important? Maybe v2?
+- Panel: Copied All!
+- Panel item: Copied!
+
 ## Extension basics
 
-- Hard css reset to cover all sites
-- x Only inject content code on activation in current tab
-- x Style popup for active/inactive
+- x Hard css reset to cover all sites
 
 ## Highlight
 

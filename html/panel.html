@@ -1,16 +1,30 @@
-<div id="highlights-ext-wrapper">
+<div id="highlights-ext-wrapper" class="open">
   <button id="highlights-ext-toggle-btn">H</button>
   <div id="highlights-ext-panel">
     <div id="highlights-ext-header-block">
       <h2>Your Highlights</h2>
       <div id="highlights-ext-header-block-buttons">
-        <button data-highlights-ext-action="export">
+        <button data-highlights-ext-action="export-toggle">
           <span>Export all</span>
           <svg><use xlink:href="#highlights-ext-icon-export" /></svg>
         </button>
         <button data-highlights-ext-action="copy-all">
           <span>Copy all</span>
           <svg><use xlink:href="#highlights-ext-icon-copy" /></svg>
+        </button>
+      </div>
+      <div id="highlights-ext-header-export-menu" class="panel-btn-array-sm">
+        <button data-highlights-ext-action="export" data-highlights-ext-export-type="text">
+          <span>Plain text</span>
+          <svg><use xlink:href="#highlights-ext-icon-txt" /></svg>
+        </button>
+        <button data-highlights-ext-action="export" data-highlights-ext-export-type="markdown">
+          <span>Markdown</span>
+          <svg><use xlink:href="#highlights-ext-icon-markdown" /></svg>
+        </button>
+        <button data-highlights-ext-action="export" data-highlights-ext-export-type="email">
+          <span>Email</span>
+          <svg><use xlink:href="#highlights-ext-icon-mail" /></svg>
         </button>
       </div>
     </div>
