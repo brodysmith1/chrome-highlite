@@ -4,6 +4,7 @@
 - Share button: Important? Maybe v2?
 - Panel: Copied All!
 - Panel item: Copied!
+- Create typeform
 
 ## Extension basics
 
@@ -52,3 +53,4 @@
 - Scrub handles allow editing the highlight bounds
 - User can drag position of Logo Button to preferred position
 - Allow editing the text of individual highlights in panel
+- Expand Share menu to other social platforms

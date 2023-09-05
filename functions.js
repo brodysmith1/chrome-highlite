@@ -9,8 +9,8 @@ export function globalHandleClick(event) {
   // Check if target parents have el.dataset.highlightsExtAction
   if (!action) {
     while (target !== document.body && !action) {
-      action = target.dataset.highlightsExtAction
       target = target.parentNode
+      action = target.dataset.highlightsExtAction
     }
   }
 
@@ -20,12 +20,13 @@ export function globalHandleClick(event) {
     setTimeout(() => (document.body.dataset.highlightsHasClicked = ""), 40)
   }
 
-  if (action === "copy") copyToClipboard(event)
+  if (action === "copy") copyToClipboard(target)
   else if (action === "export-toggle") toggleExportMenu(event)
-  else if (action === "export") exportCollection(event)
+  else if (action === "export") exportCollection(target)
+  else if (action === "tweet") tweetSelection(target)
   else if (action === "delete") deleteFromCollection(event)
   else if (action === "inspect") toggleEditingDialog(event)
-  else if (action === "copy-all") copyAllHighlights(event)
+  else if (action === "copy-all") copyAllHighlights(target)
   else {
     // If no action, close dialog
     const dialog = qs("#highlights-ext-dialog")
@@ -35,31 +36,49 @@ export function globalHandleClick(event) {
   }
 }
 
-async function copyAllHighlights(event) {
-  const data = await chrome.storage.local.get(url())
-  const body = data.collection.map((o) => o.text).join("\n\n")
-  const title = `${document.title}\n${url()}`
-  const text = [title, body].join("\n\n")
+async function tweetSelection(target) {
+  const dialog = qs("#highlights-ext-dialog")
+  const targetIsDialog = dialog?.contains(target)
+
+  let id = ""
+  let string = ""
+
+  if (targetIsDialog) id = dialog.dataset.highlightsExtActiveId
+  else id = getIdFromPanelListElement(target)
+
+  if (id) string = (await getHighlight(id)).text
+  else string = window.getSelection()?.toString() || ""
+
+  const encodedString = encodeURIComponent(string);
+  const href = `https://twitter.com/intent/tweet?text=${encodedString}&url=${url()}`
+  window.open(href, "_blank")
+}
+
+async function copyAllHighlights(target) {
+  const _url = url()
+  const data = await chrome.storage.local.get(_url)
+  const body = data[_url].collection.map((o) => o.text).join("\n\n")
+  const title = `${document.title}`
+  const text = [title, body, `Accessed: ${_url}`].join("\n\n")
   navigator?.clipboard?.writeText(text)
 
-  const button = event.target
-  button.classList.add("pressed")
-  button.innerHTML = button.innerHTML.replace("Copy", "Copied")
+  target.classList.add("pressed")
+  target.innerHTML = target.innerHTML.replace("Copy", "Copied")
   setTimeout(() => {
-    button.classList.remove("pressed")
-    button.innerHTML = button.innerHTML.replace("Copied", "Copy")
+    target.classList.remove("pressed")
+    target.innerHTML = target.innerHTML.replace("Copied", "Copy")
   }, 500)
 }
 
-async function copyToClipboard(event) {
+async function copyToClipboard(target) {
   const dialog = qs("#highlights-ext-dialog")
-  const targetIsDialog = dialog?.contains(event.target)
+  const targetIsDialog = dialog?.contains(target)
 
   let id = ""
   let text = ""
 
   if (targetIsDialog) id = dialog.dataset.highlightsExtActiveId
-  else id = getIdFromPanelListElement(event.target)
+  else id = getIdFromPanelListElement(target)
 
   if (id) text = (await getHighlight(id)).text
   else text = window.getSelection()?.toString() || ""
@@ -77,6 +96,14 @@ async function copyToClipboard(event) {
         copyButton.innerHTML = copyButton.innerHTML.replace("Copied", "Copy")
       }, 500)
     }, 450)
+  } else {
+    const label = qs(".label", target)
+    target.classList.add("pressed")
+    label.innerHTML = label.innerHTML.replace("Copy", "Copied")
+    setTimeout(() => {
+      target.classList.remove("pressed")
+      label.innerHTML = label.innerHTML.replace("Copied", "Copy")
+    }, 500)
   }
 }
 
@@ -142,22 +169,28 @@ export async function toggleExportMenu() {
   menu.classList.toggle("open")
 }
 
-export async function exportCollection() {
+export async function exportCollection(target) {
   const _url = url()
   const data = await chrome.storage.local.get(_url)
+  const type = target.dataset.highlightsExtExportType
 
-  const heading = `# ${document.title}\n\n[Link to original article](${url()})\n\n`
+  let extension = "txt"
+  let heading = document.title
+  let body = data[_url].collection.map((o) => o.text).join("\n\n").replace(/\n\n+/gi, "\n\n")
 
-  const markdown = data[_url].collection
-    .map((o) => o.text)
-    .join("\n\n")
-    .replace(/\n\n+/gi, "\n\n")
+  if (type === "plain-text") {
+    heading = `${heading}\n${_url}\n\n`
+  }
+  else if (type === "markdown") {
+    extension = "md"
+    heading = `# ${heading}\n\n[Link to original article](${_url})\n\n`
+  }
 
-  const blob = new Blob([heading, markdown], { type: "text/plain;charset=utf-8" })
+  const blob = new Blob([heading, body], { type: "text/plain;charset=utf-8" })
   const link = URL.createObjectURL(blob)
-  const title = document.title.slice(0, 25).replace(":", " -")
+  const filename = `${document.title.slice(0, 35).replace(":", " -")}.${extension}`
 
-  chrome.runtime.sendMessage({ type: "exportCollection", link, title })
+  chrome.runtime.sendMessage({ type: "exportCollection", link, filename })
 }
 
 export function addSelectionToCollection(event, htmlTemplate) {
@@ -318,7 +351,6 @@ function styleSelection(id) {
 const getHighlight = async (id) => {
   const _url = url()
   const data = await chrome.storage.local.get(_url)
-  console.log(data[_url].collection, id)
   return data[_url].collection.find((item) => item.id === id)
 }
 
@@ -334,6 +366,5 @@ const getIdFromPanelListElement = (target) => {
 const toggleListPlaceholderText = () => {
   const list = qs("#highlights-ext-list")
   const placeholder = qs("#highlights-ext-list-placeholder")
-  console.log(list.children, list.childNodes)
   placeholder.classList.toggle("highlights-ext-hidden", list.children.length > 1)
 }
