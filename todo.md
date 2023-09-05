@@ -1,10 +1,9 @@
 ## Priorities
 
-- Export all functions: email, plain-text, markdown
-- Share button: Important? Maybe v2?
-- Panel: Copied All!
-- Panel item: Copied!
+- Export markdown filetype
+- Send highlights to email
 - Create typeform
+- Logo and branding
 
 ## Extension basics
 
