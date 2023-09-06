@@ -1,4 +1,4 @@
-;(async () => {
+; (async () => {
   // Load html snippets. All paths need to be defined in manifest.json
   const fetchHtml = async (url) =>
     fetch(chrome.runtime.getURL(url)).then((response) => response.text())
@@ -29,6 +29,7 @@
 
   // onmouseup: Show dialog
   document.addEventListener("mouseup", (e) => {
+    e.stopPropagation()
     if (e.detail === 1) {
       setTimeout(() => {
         if (!document.body.dataset.highlightsHasClicked) showDialog(e)
@@ -41,8 +42,12 @@
   document.addEventListener("mouseleave", applyClassesToHighlightId, true)
 
   // on click: Handle global click events
-  document.addEventListener("click", globalHandleClick)
-  document.addEventListener("dblclick", showDialog)
+  document.addEventListener("click", globalHandleClick, true)
+  document.addEventListener("dblclick", showDialog, true)
+
+  // Disable site's pointer events to prevent selection conflicts (i.e. brookings.edu)
+  document.addEventListener("pointerup", (e) => e.stopPropagation(), true)
+  document.addEventListener("pointerdown", (e) => e.stopPropagation(), true)
 
   // Create event listeners for dialog buttons
   const dialogActions = [

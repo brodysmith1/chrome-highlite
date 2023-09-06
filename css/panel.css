@@ -188,6 +188,7 @@
   line-height: 1;
   display: flex;
   gap: 4px;
+  font-size: 14px;
   align-items: center;
   border: none;
   background: #ffffff00;

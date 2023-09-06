@@ -1,17 +1,16 @@
 ## Priorities
 
-- Export markdown filetype
 - Send highlights to email
 - Create typeform
 - Logo and branding
+- Update badge on item delete
+- Triple click works
 
 ## Extension basics
 
 - x Hard css reset to cover all sites
 
 ## Highlight
-
-- Triple click works
 
 - Adding selection to highlight:
 

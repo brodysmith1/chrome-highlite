@@ -1,6 +1,6 @@
 #highlights-ext-dialog {
   position: fixed;
-  z-index: "9999";
+  z-index: 9999;
   border: "1px solid #ccc";
   transform: translate(-50%, calc(-100%));
   box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2);

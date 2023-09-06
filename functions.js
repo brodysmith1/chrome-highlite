@@ -15,6 +15,7 @@ export function globalHandleClick(event) {
   }
 
   if (action) {
+    event.preventDefault()
     event.stopPropagation()
     document.body.dataset.highlightsHasClicked = "yes"
     setTimeout(() => (document.body.dataset.highlightsHasClicked = ""), 40)
@@ -97,7 +98,7 @@ async function copyToClipboard(target) {
       }, 500)
     }, 450)
   } else {
-    const label = qs(".label", target)
+    const label = qs(".highlghts-ext-label", target)
     target.classList.add("pressed")
     label.innerHTML = label.innerHTML.replace("Copy", "Copied")
     setTimeout(() => {
@@ -178,7 +179,7 @@ export async function exportCollection(target) {
   let heading = document.title
   let body = data[_url].collection.map((o) => o.text).join("\n\n").replace(/\n\n+/gi, "\n\n")
 
-  if (type === "plain-text") {
+  if (type === "plain") {
     heading = `${heading}\n${_url}\n\n`
   }
   else if (type === "markdown") {
@@ -186,7 +187,7 @@ export async function exportCollection(target) {
     heading = `# ${heading}\n\n[Link to original article](${_url})\n\n`
   }
 
-  const blob = new Blob([heading, body], { type: "text/plain;charset=utf-8" })
+  const blob = new Blob([heading, body], { type: `text/${type};charset=utf-8` })
   const link = URL.createObjectURL(blob)
   const filename = `${document.title.slice(0, 35).replace(":", " -")}.${extension}`
 
@@ -194,7 +195,10 @@ export async function exportCollection(target) {
 }
 
 export function addSelectionToCollection(event, htmlTemplate) {
+  event.preventDefault()
   event.stopPropagation()
+
+  console.log(event,)
 
   const id = `${new Date().getTime()}-${Math.floor(Math.random() * 10000)}`
   const selection = window.getSelection()
@@ -308,7 +312,9 @@ function traverseSelectionNodes() {
 // apply a class to each text node in the user's selection
 function styleSelection(id) {
   const selection = window.getSelection()
-  const range = selection.getRangeAt(0)
+  if (selection.isCollapsed) return
+
+  const range = selection?.getRangeAt(0)
 
   const getClassedSpanElement = () => {
     const node = document.createElement("span")
