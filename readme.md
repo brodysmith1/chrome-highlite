@@ -1,4 +1,4 @@
-# Highlights
+# Highlite
 
 A Chrome extension that allows you to highlight, summarise and export text on any page.
 

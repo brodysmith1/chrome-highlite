@@ -1,9 +1,7 @@
 ## Priorities
 
-- Send highlights to email
 - Create typeform
-- Logo and branding
-- Update badge on item delete
+- Delete panel items on page change
 - Triple click works
 
 ## Extension basics
@@ -37,7 +35,12 @@
 
 ## Version 2 features
 
-### Save url highlights in local to enable page revisiting and reload
+### Send highlights to email address
+
+- Maybe once accounts are set up.
+- Premium feature?
+
+### Save url highlights in localstorage to enable page revisiting and reload
 
 - Currently, page data is reset on a new content.js injection
 - Remaining hurdle is to somehow save the Selection points to re-highlight the old collection in the
@@ -48,6 +51,7 @@
 
 ### Other ideas
 
+- Add GA4 (https://developer.chrome.com/docs/extensions/mv3/tut_analytics/)
 - Scrub handles allow editing the highlight bounds
 - User can drag position of Logo Button to preferred position
 - Allow editing the text of individual highlights in panel

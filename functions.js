@@ -10,7 +10,7 @@ export function globalHandleClick(event) {
   if (!action) {
     while (target !== document.body && !action) {
       target = target.parentNode
-      action = target.dataset.highlightsExtAction
+      action = target.dataset?.highlightsExtAction
     }
   }
 
@@ -63,10 +63,10 @@ async function copyAllHighlights(target) {
   const text = [title, body, `Accessed: ${_url}`].join("\n\n")
   navigator?.clipboard?.writeText(text)
 
-  target.classList.add("pressed")
+  target.classList.add("highlights-ext-pressed")
   target.innerHTML = target.innerHTML.replace("Copy", "Copied")
   setTimeout(() => {
-    target.classList.remove("pressed")
+    target.classList.remove("highlights-ext-pressed")
     target.innerHTML = target.innerHTML.replace("Copied", "Copy")
   }, 500)
 }
@@ -88,22 +88,23 @@ async function copyToClipboard(target) {
 
   if (targetIsDialog) {
     const copyButton = qs("#highlights-ext-btn-copy")
-    copyButton.classList.add("pressed")
+    copyButton.classList.add("highlights-ext-pressed")
     copyButton.innerHTML = copyButton.innerHTML.replace("Copy", "Copied")
     setTimeout(() => {
       dialog.classList.remove("visible")
       setTimeout(() => {
-        copyButton.classList.remove("pressed")
+        copyButton.classList.remove("highlights-ext-pressed")
         copyButton.innerHTML = copyButton.innerHTML.replace("Copied", "Copy")
       }, 500)
     }, 450)
   } else {
-    const label = qs(".highlghts-ext-label", target)
-    target.classList.add("pressed")
+    const label = qs(".highlights-ext-label", target)
+    if (!label) return
+    target.classList.add("highlights-ext-pressed")
     label.innerHTML = label.innerHTML.replace("Copy", "Copied")
     setTimeout(() => {
-      target.classList.remove("pressed")
-      label.innerHTML = label.innerHTML.replace("Copied", "Copy")
+      target.classList.remove("highlights-ext-pressed")
+      label.innerHTML = label?.innerHTML.replace("Copied", "Copy")
     }, 500)
   }
 }
@@ -170,10 +171,26 @@ export async function toggleExportMenu() {
   menu.classList.toggle("open")
 }
 
+const triggerEmailMessage = (target) => {
+  const label = qs(".highlights-ext-label", target)
+  if (!label) return
+  target.classList.add("highlights-ext-pressed")
+  label.innerHTML = label.innerHTML.replace("Email", "Coming soon!")
+  setTimeout(() => {
+    target.classList.remove("highlights-ext-pressed")
+    label.innerHTML = label?.innerHTML.replace("Coming soon!", "Email")
+  }, 700)
+}
+
 export async function exportCollection(target) {
   const _url = url()
   const data = await chrome.storage.local.get(_url)
   const type = target.dataset.highlightsExtExportType
+
+  if (type === "email") {
+    triggerEmailMessage(target)
+    return
+  }
 
   let extension = "txt"
   let heading = document.title
@@ -198,8 +215,6 @@ export function addSelectionToCollection(event, htmlTemplate) {
   event.preventDefault()
   event.stopPropagation()
 
-  console.log(event,)
-
   const id = `${new Date().getTime()}-${Math.floor(Math.random() * 10000)}`
   const selection = window.getSelection()
   const text = selection?.toString()
@@ -209,14 +224,22 @@ export function addSelectionToCollection(event, htmlTemplate) {
   chrome.runtime.sendMessage({ type: "addToCollection", item })
 
   // Create new html element
+  const btnElement = qs("#highlights-ext-toggle-btn")
   const listElement = qs("#highlights-ext-list")
   const scrollElement = qs("#highlights-ext-list-wrapper")
   const html = htmlTemplate.replaceAll("{{id}}", id).replace("{{text}}", text)
-
+  
   listElement.insertAdjacentHTML("beforeend", html)
   toggleListPlaceholderText()
 
   scrollElement.scrollTo({ top: listElement.scrollHeight, left: 0, behavior: "smooth" })
+
+  btnElement.classList.add("highlights-ext-bounce")
+
+  setTimeout(() => {
+    btnElement.classList.remove("highlights-ext-bounce")
+  }
+  , 500)
 
   styleSelection(id)
 }

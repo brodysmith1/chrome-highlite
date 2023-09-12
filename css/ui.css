@@ -3,8 +3,8 @@
   opacity: 1;
 }
 
-[data-highlights-ext-action="copy"].pressed,
-[data-highlights-ext-action="copy-all"].pressed {
+[data-highlights-ext-action="copy"].highlights-ext-pressed,
+[data-highlights-ext-action="copy-all"].highlights-ext-pressed {
   animation: ext-hl-activate-button 0.3s alternate 2;
 }
 

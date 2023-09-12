@@ -58,8 +58,8 @@ chrome.action.onClicked.addListener(async (tab) => {
     chrome.action.setBadgeText({ tabId, text: count })
     chrome.action.setBadgeBackgroundColor({ tabId, color: "#ecc010" })
   } else {
-    chrome.action.setBadgeText({ tabId, text: "–" })
-    chrome.action.setBadgeBackgroundColor({ tabId, color: "red" })
+    chrome.action.setBadgeText({ tabId, text: "0" })
+    chrome.action.setBadgeBackgroundColor({ tabId, color: "#888" })
   }
 })
 
@@ -81,6 +81,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const index = data.collection.findIndex((item) => item.id === message.id)
       data.collection.splice(index, 1)
       chrome.storage.local.set({ [pageId]: data })
+      chrome.action.setBadgeText({ tabId, text: data.collection.length.toString() })
     })
   } else if (message.type === "exportCollection") {
     const { link, filename } = message

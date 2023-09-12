@@ -14,6 +14,7 @@
   document.body.insertAdjacentHTML("beforeend", html.panel)
   document.body.insertAdjacentHTML("beforeend", html.sprite)
   document.body.insertAdjacentHTML("beforeend", html.dialog)
+  document.querySelector("#highlights-ext-logo").src = chrome.runtime.getURL("assets/logo/logo.svg")
 
   // Load javascript libraries
   const library = chrome.runtime.getURL("functions.js")

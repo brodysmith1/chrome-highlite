@@ -6,6 +6,7 @@
 #highlights-ext-wrapper *::after,
 #highlights-ext-wrapper *::before {
   box-sizing: border-box;
+  content: none;
 }
 
 :root {
@@ -40,7 +41,7 @@
   top: 0;
   right: 0;
   margin: 4rem 0;
-  z-index: 10000;
+  z-index: 99999999999;
   color: var(--ext-hl-color-text);
   pointer-events: none;
   font-size: 14px;
@@ -70,17 +71,15 @@
   z-index: 1;
   top: 0;
   right: 0;
-  padding: 0;
-  width: 1.75em;
-  height: 1.75em;
+  padding: 4px;
+  width: 1.5em;
+  height: 1.5em;
   font-size: 1.75rem;
   margin: 0.75rem 1.25rem;
-  font-weight: bold;
-  border: 2px solid var(--ext-hl-color-k);
-  border-radius: 1em;
-  color: var(--ext-hl-color-k);
-  background: var(--ext-hl-accent);
-  transition: all 0.6s var(--ext-hl-ease-in-out-quad), background-color 0.4s;
+  border-radius: 12px;
+  border: 2px solid var(--ext-hl-accent);
+  background: var(--ext-hl-color-k);
+  transition: all 0.6s var(--ext-hl-ease-in-out-quad), border-color 0.4s;
   pointer-events: all;
   animation: ext-hl-button-animation-1 0.5s cubic-bezier(0.18, 0.89, 0.43, 1.2) none,
     ext-hl-button-animation-2 0.25s 0.45s 4 ease-in-out alternate none;
@@ -99,14 +98,21 @@
 
 @keyframes ext-hl-button-animation-2 {
   to {
-    background: var(--ext-hl-accent-alt);
+    background: var(--ext-hl-color-text);
   }
 }
 
-#highlights-ext-wrapper.open #highlights-ext-toggle-btn {
-  transform: rotate(90deg);
-  color: var(--ext-hl-color-text);
-  border-color: var(--ext-hl-color-text);
+@keyframes ext-hl-button-animation-3 {
+  0% { transform: scale(1) }
+  10% { transform: scale(0.8) }
+  60% { transform: scale(1.2) }
+  100% { transform: scale(1) }
+}
+
+#highlights-ext-wrapper.open #highlights-ext-toggle-btn,
+#highlights-ext-wrapper #highlights-ext-toggle-btn.highlights-ext-bounce {
+  animation: ext-hl-button-animation-1 0.5s cubic-bezier(0.18, 0.89, 0.43, 1.2) none,
+  ext-hl-button-animation-2 0.25s 0.45s 4 ease-in-out alternate none, ext-hl-button-animation-3 0.25s 1 ease-in-out forwards;
 }
 
 #highlights-ext-panel {
@@ -170,7 +176,7 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 0 0 1rem;
-  margin: 0 auto 0 var(--ext-hl-radius);
+  margin: 0 var(--ext-hl-radius);
   border-bottom: 1px solid var(--ext-hl-faint);
 }
 
@@ -306,13 +312,17 @@
   color: var(--ext-hl-accent);
 }
 
+#highlights-ext-icon-spritesheet {
+  display: none;
+}
+
 @media (hover: hover) {
   #highlights-ext-wrapper button:hover {
     background-color: #ffffff33;
   }
 
   #highlights-ext-wrapper #highlights-ext-toggle-btn:hover {
-    background-color: var(--ext-hl-accent-alt);
+    border-color: var(--ext-hl-accent-alt)
   }
 
   .highlights-ext-list-item:hover {
