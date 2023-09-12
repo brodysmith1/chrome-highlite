@@ -14,14 +14,6 @@
       "css": ["css/reset.css", "css/ui.css", "css/dom.css", "css/panel.css", "css/dialog.css"]
     }
   ],
-  "commands": {
-    "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+H",
-        "mac": "Command+H"
-      }
-    }
-  },
   "web_accessible_resources": [
     {
       "matches": ["https://*/*"],
