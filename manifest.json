@@ -1,8 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Highlite",
-  "version": "1.0",
+  "version": "1.0.0",
+  "author": "brody4004@gmail.com",
   "description": "Highlight and save text snippets with this tiny, secure, and elegant tool. Summarise online articles as you read them.",
+  "icons": {
+    "16": "_assets/logo/logo@32.png",
+    "32": "_assets/logo/logo@48.png",
+    "48": "_assets/logo/logo@128.png",
+    "128": "_assets/logo/logo@256.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
@@ -11,7 +18,7 @@
   "content_scripts": [
     {
       "matches": ["https://*/*"],
-      "css": ["css/reset.css", "css/ui.css", "css/dom.css", "css/panel.css", "css/dialog.css"]
+      "css": ["_css/reset.css", "_css/ui.css", "_css/dom.css", "_css/panel.css", "_css/dialog.css"]
     }
   ],
   "web_accessible_resources": [
@@ -19,19 +26,12 @@
       "matches": ["https://*/*"],
       "resources": [
         "functions.js",
-        "html/panel.html",
-        "html/dialog.html",
-        "html/sprite.html",
-        "html/list-item.html",
-        "assets/logo/logo.svg"
+        "_html/panel.html",
+        "_html/dialog.html",
+        "_html/sprite.html",
+        "_html/list-item.html",
+        "_assets/logo/logo.svg"
       ]
     }
-  ],
-  "icons": {
-    "16": "assets/logo/logo@32.png",
-    "32": "assets/logo/logo@48.png",
-    "48": "assets/logo/logo@128.png",
-    "128": "assets/logo/logo@256.png",
-    "256": "assets/logo/logo@256.png"
-  }
+  ]
 }
