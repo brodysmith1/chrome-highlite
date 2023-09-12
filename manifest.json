@@ -3,7 +3,6 @@
   "name": "Highlite",
   "version": "1.0",
   "description": "Highlight and save text snippets with this tiny, secure, and elegant tool. Summarise online articles as you read them.",
-  "action": {},
   "background": {
     "service_worker": "background.js"
   },
