@@ -4,17 +4,17 @@
     fetch(chrome.runtime.getURL(url)).then((response) => response.text())
 
   const html = {
-    panel: await fetchHtml("_html/panel.html"),
-    sprite: await fetchHtml("_html/sprite.html"),
-    dialog: await fetchHtml("_html/dialog.html"),
-    listItem: await fetchHtml("_html/list-item.html"),
+    panel: await fetchHtml("html/panel.html"),
+    sprite: await fetchHtml("html/sprite.html"),
+    dialog: await fetchHtml("html/dialog.html"),
+    listItem: await fetchHtml("html/list-item.html"),
   }
 
   // Add elements to page
   document.body.insertAdjacentHTML("beforeend", html.panel)
   document.body.insertAdjacentHTML("beforeend", html.sprite)
   document.body.insertAdjacentHTML("beforeend", html.dialog)
-  document.querySelector("#highlights-ext-logo").src = chrome.runtime.getURL("_assets/logo/logo.svg")
+  document.querySelector("#highlights-ext-logo").src = chrome.runtime.getURL("assets/logo/logo.svg")
 
   // Load javascript libraries
   const library = chrome.runtime.getURL("functions.js")

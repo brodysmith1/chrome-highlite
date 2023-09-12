@@ -228,7 +228,7 @@ export function addSelectionToCollection(event, htmlTemplate) {
   const listElement = qs("#highlights-ext-list")
   const scrollElement = qs("#highlights-ext-list-wrapper")
   const html = htmlTemplate.replaceAll("{{id}}", id).replace("{{text}}", text)
-  
+
   listElement.insertAdjacentHTML("beforeend", html)
   toggleListPlaceholderText()
 
@@ -239,7 +239,7 @@ export function addSelectionToCollection(event, htmlTemplate) {
   setTimeout(() => {
     btnElement.classList.remove("highlights-ext-bounce")
   }
-  , 500)
+    , 500)
 
   styleSelection(id)
 }
