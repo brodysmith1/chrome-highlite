@@ -1,4 +1,3 @@
-/* box-sizing */
 #highlights-ext-wrapper,
 #highlights-ext-wrapper *,
 #highlights-ext-wrapper ::after,
@@ -23,18 +22,6 @@
   --ext-hl-default-transition: opacity 0.4s, border 0.4s, background 0.4s, color 0.4s;
   --ext-hl-ease-in-out-quad: cubic-bezier(0.77, 0, 0.175, 1);
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --faint: #a8a8a8;
-    --accent: #f2ea22;
-    --color-1: #2b2d3b;
-    --color-2: #333542;
-    --color-3: #3e404f;
-    --color-4: #4c4e5d;
-    --color-text: #ffffff;
-  }
-} */
 
 #highlights-ext-wrapper {
   position: fixed;
