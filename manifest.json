@@ -3,7 +3,8 @@
   "name": "Highlite",
   "version": "1.0.0",
   "author": "brody4004@gmail.com",
-  "description": "Highlight and save text snippets with this tiny, secure, and elegant tool. Summarise online articles as you read them.",
+  "action": {},
+  "description": "Highlight and save text snippets with this tiny, secure, and elegant tool. Summarise online articles fast and with focus.",
   "icons": {
     "16": "assets/logo/logo@32.png",
     "32": "assets/logo/logo@48.png",
