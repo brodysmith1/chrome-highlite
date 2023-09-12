@@ -15,12 +15,6 @@
     "service_worker": "background.js"
   },
   "permissions": ["activeTab", "scripting", "storage", "downloads"],
-  "content_scripts": [
-    {
-      "matches": ["https://*/*"],
-      "css": ["css/reset.css", "css/ui.css", "css/dom.css", "css/panel.css", "css/dialog.css"]
-    }
-  ],
   "web_accessible_resources": [
     {
       "matches": ["https://*/*"],
@@ -30,7 +24,12 @@
         "html/dialog.html",
         "html/sprite.html",
         "html/list-item.html",
-        "assets/logo/logo.svg"
+        "assets/logo/logo.svg",
+        "css/reset.css",
+        "css/ui.css",
+        "css/dom.css",
+        "css/panel.css",
+        "css/dialog.css"
       ]
     }
   ]
