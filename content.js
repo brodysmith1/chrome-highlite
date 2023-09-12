@@ -3,6 +3,19 @@
   const fetchHtml = async (url) =>
     fetch(chrome.runtime.getURL(url)).then((response) => response.text())
 
+  // Load stylesheets. All paths need to be defined in manifest.json
+  const appendCss = async (url) => {
+    const linkElement = document.createElement('link')
+    linkElement.rel = 'stylesheet'
+    linkElement.type = 'text/css'
+    linkElement.href = chrome.runtime.getURL(url)
+    document.head.appendChild(linkElement)
+  }
+
+  // Add our stylesheets to the page
+  ["css/reset.css", "css/ui.css", "css/dom.css", "css/panel.css", "css/dialog.css"].forEach(appendCss)
+
+  // Load html snippets
   const html = {
     panel: await fetchHtml("html/panel.html"),
     sprite: await fetchHtml("html/sprite.html"),
