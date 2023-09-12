@@ -168,7 +168,7 @@ export async function showDialog(event, focusElement) {
 
 export async function toggleExportMenu() {
   const menu = qs("#highlights-ext-header-export-menu")
-  menu.classList.toggle("open")
+  menu.classList.toggle("highlights-ext-open")
 }
 
 const triggerEmailMessage = (target) => {

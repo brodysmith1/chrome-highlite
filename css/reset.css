@@ -1,3 +1,8 @@
 #highlights-ext-wrapper svg {
   margin: 0;
 }
+
+#highlights-ext-wrapper h2 {
+  text-transform: none;
+  line-height: 1;
+}

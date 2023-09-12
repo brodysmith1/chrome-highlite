@@ -26,7 +26,7 @@
   const toggleButton = document.querySelector("#highlights-ext-toggle-btn")
 
   // on toggle click: Show/hide panel
-  toggleButton.addEventListener("click", () => panelWrapper.classList.toggle("open"))
+  toggleButton.addEventListener("click", () => panelWrapper.classList.toggle("highlights-ext-open"))
 
   // onmouseup: Show dialog
   document.addEventListener("mouseup", (e) => {
