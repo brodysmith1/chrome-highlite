@@ -2,6 +2,15 @@
 
 A Chrome extension that allows you to highlight, summarise and export text on any page.
 
+## Packing for deployment
+
+Google requires a zip of this repo for deployment. For some reason, it doesn't like the zip output
+by Mac's default compressor.
+
+Instead, run this command from the extension's root directory:
+
+> zip -r extension.zip \*
+
 ## Files
 
 ### manifest.json
