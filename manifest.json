@@ -17,7 +17,7 @@
   "permissions": ["activeTab", "scripting", "storage", "downloads"],
   "web_accessible_resources": [
     {
-      "matches": ["https://*/*"],
+      "matches": ["https://*/*", "http://*/*"],
       "resources": [
         "functions.js",
         "html/panel.html",

@@ -1,8 +1,28 @@
+#highlights-ext-wrapper {
+  line-height: 1.3;
+}
+
 #highlights-ext-wrapper svg {
   margin: 0;
+}
+
+
+#highlights-ext-wrapper ul,
+#highlights-ext-wrapper li {
+  font-size: 1em;
+}
+
+#highlights-ext-dialog button,
+#highlights-ext-wrapper button {
+  margin: 0;
+  letter-spacing: 0;
+  text-decoration: none!important;
 }
 
 #highlights-ext-wrapper h2 {
   text-transform: none;
   line-height: 1;
+  padding: 0;
+  max-width: none;
+  display: block;
 }

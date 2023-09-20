@@ -3,20 +3,25 @@
   z-index: 999999999999;
   border: "1px solid #ccc";
   transform: translate(-50%, calc(-100%));
-  box-shadow: 0 0 1rem rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 1em rgba(255, 255, 255, 0.2);
   background: var(--ext-hl-color-k);
   color: var(--ext-hl-color-1);
-  border-radius: 0.25rem;
+  border-radius: 0.25em;
   pointer-events: none;
   opacity: 0;
   font-size: 14px;
   transition: opacity 0.4s, transform 0.2s;
 }
 
+#highlights-ext-dialog .dialog-buttons {
+  display: flex;
+  line-height: 1;
+}
+
 #highlights-ext-dialog.visible {
   opacity: 1;
   pointer-events: all;
-  transform: translate(-50%, calc(-0.5rem - 100%));
+  transform: translate(-50%, calc(-0.5em - 100%));
 }
 
 #highlights-ext-dialog.editing #highlights-ext-btn-delete {
@@ -34,7 +39,7 @@
   width: auto;
   border: none;
   box-shadow: none;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5em 0.625em;
   height: auto;
   font-size: 14px;
   cursor: pointer;
