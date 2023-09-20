@@ -1,37 +1,7 @@
-## Priorities
+## Version 1 todos
 
-- Create typeform
 - Delete panel items on page change
 - Triple click works
-
-## Extension basics
-
-- x Hard css reset to cover all sites
-
-## Highlight
-
-- Adding selection to highlight:
-
-  - x successfully add data-highlights-active to all chunks
-  - x adjust selection to word bounds
-  - x adds formatted string to collection
-
-- For already highlighted spans:
-  - x :hover is replaced with .hover for all substrings
-  - x Alt dialog shows with: delete, share, copy
-
-## Panel buttons
-
-- Export all to: email, plain-text (md)
-- Add counter badge w animations
-- x Copy all to clipboard
-- x Delete highlight
-
-## Design
-
-- Add highlights logo
-
---
 
 ## Version 2 features
 
@@ -56,3 +26,4 @@
 - User can drag position of Logo Button to preferred position
 - Allow editing the text of individual highlights in panel
 - Expand Share menu to other social platforms
+- Add counter badge w animations to DOM button
