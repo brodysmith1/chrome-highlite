@@ -10,7 +10,7 @@ This extension is no longer available on the Chrome Web Store due to Google maki
 
 Still, you can install it manually using the following steps:
 
-1. Clone this repo, or download it as a [zip file here](/highlight-extension.zip) and unzip it
+1. Clone this repo, or download it as a [zip file](/highlite-extension.zip) and unzip it
 2. Move the folder to a permanent location on your computer (do not delete the folder after installation)
 3. Go to the extensions page (chrome://extensions)
 4. Enable Developer Mode
