@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 
 // Only enable the extension when the user has clicked the icon for the current tab
 chrome.action.onClicked.addListener(async (tab) => {
-  if (!tab.url.match(/^https*/)) return
+  if (!tab.url.match(/^[https|file]*/)) return
 
   // id is url with hash and queries removed
   const { url, id: tabId } = tab
