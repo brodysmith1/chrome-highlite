@@ -6,7 +6,7 @@ An extension for Chromium browsers (Chrome, Edge, Brave) that allows you to high
 
 ## Installation
 
-This extension is no longer available on the Chrome Web Store (CWS) due to Google's updated identity requirements for developers (it's now mandatory to list your phone number and physical address publicly on CWS—no thanks).
+This extension is no longer available on the Chrome Web Store due to Google making it mandatory for developers to list their phone number and physical address publicly on the Store. No thanks!
 
 Still, you can install it manually using the following steps:
 
@@ -15,8 +15,6 @@ Still, you can install it manually using the following steps:
 3. Go to the extensions page (chrome://extensions).
 4. Enable Developer Mode.
 5. Click *Load Unpacked* and select the highlight-extension folder.
-
---
 
 ## Additional notes
 
