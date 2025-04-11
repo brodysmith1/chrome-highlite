@@ -1,6 +1,6 @@
-# Highlite
+# Highlite: A browser extension to highlight and text from any web page.
 
-A Chrome extension that allows you to highlight, summarise and export text on any page.
+An extension for Chromium browsers (Chrome, Edge, Brave) that allows you to highlight, summarise and export text on any page. Fast, secure, and helps you stay in flow.
 
 ![image](https://github.com/user-attachments/assets/8faad570-3bc1-493a-8002-5334ae49aec9)
 
