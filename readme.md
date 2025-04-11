@@ -10,11 +10,18 @@ This extension is no longer available on the Chrome Web Store due to Google maki
 
 Still, you can install it manually using the following steps:
 
-1. Clone this repo, or download it as a [zip file here](/highlight-extension.zip) and unzip it.
-2. Move the folder to a permanent location on your computer (do not delete the folder after installation).
-3. Go to the extensions page (chrome://extensions).
-4. Enable Developer Mode.
-5. Click *Load Unpacked* and select the highlight-extension folder.
+1. Clone this repo, or download it as a [zip file here](/highlight-extension.zip) and unzip it
+2. Move the folder to a permanent location on your computer (do not delete the folder after installation)
+3. Go to the extensions page (chrome://extensions)
+4. Enable Developer Mode
+5. Click *Load Unpacked* and select the highlight-extension folder
+
+## Usage
+
+1. You will need to toggle on the extension on each page/tab you want to use the highlighter
+2. Once the extension is active, start higlighting text. The UI is intuitive from there.
+3. Export your highlights to plain text or markdown formats.
+4. Highlights are not saved or stored anywhere unless you export them. Remember to export *before* you leave or refresh the page!
 
 ## Additional notes
 
