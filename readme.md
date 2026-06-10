@@ -25,11 +25,6 @@ Still, you can install it manually using the following steps:
 
 ## Additional notes
 
-Google required a zip of this repo for deployment. For some reason, it didn't like the zip output
-by Mac's default file compressor. Instead, run this command from the extension's root directory:
-
-> zip -r extension.zip \*
-
 ### Files
 
 **manifest.json**
@@ -50,3 +45,10 @@ APIs.
 
 Injected into the active webpage and can interact with the page's DOM and modify its behavior. Often
 used for tasks such as injecting custom styles or adding new UI elements.
+
+### Chrome Store Deployment (legacy)
+
+Google required a zip of this repo for deployment. For some reason, it didn't like the default zip output
+from Mac. Instead, I zipped from the command line from the extension's root directory:
+
+> zip -r extension.zip \*
