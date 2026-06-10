@@ -6,7 +6,7 @@ An extension for Chromium browsers (Chrome, Edge, Brave) that allows you to high
 
 ## Installation
 
-This extension is no longer available on the Chrome Web Store due to Google making it mandatory for developers to list their phone number and physical address publicly on the Store. No thanks!
+This extension is no longer available on the Chrome Web Store due to Google making it mandatory for developers to list personal information publicly on the Store.
 
 Still, you can install it manually using the following steps:
 
